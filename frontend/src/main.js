@@ -3,7 +3,7 @@ import mixins from './mixins'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import VueSocketIO from 'vue-socket.io'
+// import VueSocketIO from 'vue-socket.io'
 import Meta from 'vue-meta'
 import Notifications from 'vue-notification'
 import VueSweetalert2 from 'vue-sweetalert2'
@@ -18,18 +18,18 @@ Vue.use(BootstrapVue)
 Vue.use(VueSweetalert2)
 Vue.use(Meta)
 Vue.use(Notifications)
-Vue.use(
-  new VueSocketIO({
-    debug: true,
-    name: 'websockets-client',
-    connection: process.env.VUE_APP_SERVER_URL,
-    vuex: {
-      store,
-      actionPrefix: 'SOCKET_',
-      mutationPrefix: 'SOCKET_'
-    }
-  })
-)
+// Vue.use(
+//   new VueSocketIO({
+//     debug: true,
+//     name: 'websockets-client',
+//     connection: process.env.VUE_APP_SERVER_URL,
+//     vuex: {
+//       store,
+//       actionPrefix: 'SOCKET_',
+//       mutationPrefix: 'SOCKET_'
+//     }
+//   })
+// )
 Vue.mixin(mixins)
 
 axios.interceptors.request.use(
