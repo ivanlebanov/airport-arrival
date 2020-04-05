@@ -1,5 +1,6 @@
 const Form = require('../models/Form.js')
 const moment = require('moment')
+const randomstring = require('randomstring')
 
 class Forms {
   static async list (req, res) {
@@ -47,7 +48,8 @@ class Forms {
   static async add (req, res) {
     const room = new Form({
       user: req.user._id,
-      form: req.body
+      form: req.body,
+      code: randomstring.generate({ charset: 'numeric', length: 10 })
     })
     await room.save()
     res.sendStatus(200)

@@ -1,12 +1,11 @@
 const mongoose = require('mongoose')
-const randomstring = require('randomstring')
 
 const schema = mongoose.Schema({
   form: mongoose.Schema.Types.Mixed,
   code: {
     type: String,
     required: true,
-    default: randomstring.generate({ charset: 'numeric', length: 10 })
+    unique: true
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
