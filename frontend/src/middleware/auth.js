@@ -1,0 +1,14 @@
+import store from '@/store'
+import router from '@/router'
+export default async function auth({ next, router }) {
+  try {
+    let token = await store.dispatch('user/checkToken')
+    console.log(token)
+    if(!token) {
+      return router.push({ name: 'Home' })
+    }
+    return next()
+  } catch (e) {
+    return router.push({ name: 'Home' })
+  }
+}
