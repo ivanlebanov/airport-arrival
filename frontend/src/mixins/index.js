@@ -15,10 +15,6 @@ let mixin = {
     },
     getQuarantineEnd(date) {
       return this.moment(date).add(14, 'days').format('LL')
-    },
-    getImgUrl(icon){
-      var images = require.context('../assets/img/', false, /\.svg$/)
-      return images('./' + icon)
     }
   }
 }
