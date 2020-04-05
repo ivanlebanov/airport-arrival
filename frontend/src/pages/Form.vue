@@ -345,7 +345,7 @@ export default {
       this.form.phone = this.user.phone
       this.form.mobile = this.user.mobile
       this.form.email = this.user.email
-      this.form.age = this.calculateAge(new Date(this.user.dateOfBirth))
+      this.form.age = this.calculateAge(new Date(this.user.dateOfbirth))
     }
   },
   components: { 'vuejs-datepicker': Datepicker },
