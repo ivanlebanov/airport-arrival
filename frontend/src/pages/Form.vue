@@ -376,6 +376,10 @@ export default {
       this.lastX = 0
       this.lastY = 0
       let self = this
+      this.canvas.addEventListener("touchstart",  function(event) {event.preventDefault()})
+      this.canvas.addEventListener("touchmove",   function(event) {event.preventDefault()})
+      this.canvas.addEventListener("touchend",    function(event) {event.preventDefault()})
+      this.canvas.addEventListener("touchcancel", function(event) {event.preventDefault()})
       this.canvas.addEventListener('mousedown', () => self.isDrawing = true)
       this.canvas.addEventListener('mousemove', self.draw)
       this.canvas.addEventListener('mouseup', () => {
