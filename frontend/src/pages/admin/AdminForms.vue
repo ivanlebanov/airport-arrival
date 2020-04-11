@@ -15,7 +15,13 @@
         </b-form>
       </div>
       <div class="col-md-12">
-        <b-table ref="table" id="my-table" striped hover :items="myProvider" :fields="fields" :currentPage="currentPage" :per-page="perPage"></b-table>
+        <b-table ref="table" id="my-table" striped hover :items="myProvider" :fields="fields" :currentPage="currentPage" :per-page="perPage">
+          <template v-slot:cell(action)="data">
+            <router-link :to="{ name: 'AdminFormEdit', params: { code: data.item.code  } }">
+              Преглед
+            </router-link>
+          </template>
+        </b-table>
         <b-pagination
         ref="pagination"
         v-model="currentPage"
@@ -52,6 +58,10 @@ export default {
         {
           key: 'form.addressQuarantine.city',
           label: 'Град/село'
+        },
+        {
+          key: 'action',
+          label: 'Преглед'
         }
       ],
     }
