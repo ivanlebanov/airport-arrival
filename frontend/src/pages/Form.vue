@@ -216,7 +216,7 @@
             <div class="card-header">
               9. Подпис
             </div>
-            <div class="card-body">
+            <div class="card-body" style="position:relative">
               <b-form-checkbox
                 v-model="form.declared"
                 name="checkbox-validation"
@@ -226,7 +226,7 @@
               Декларирам, че съм информиран да спазвам задължителна 14 дневна карантина
             </b-form-checkbox>
             <div>Подпишете се в мястото по-долу*</div>
-              <canvas ref="draw" id="draw" height="100" style="border:1px solid;" class="mt-3"></canvas>
+              <canvas ref="draw" id="draw" height="100" style="border:1px solid;position:relative;float:left;" class="mt-3"></canvas>
             </div>
           </div>
           <div class="card" v-if="$route.name === 'AdminFormEdit'">
@@ -386,11 +386,18 @@ export default {
           e = event
         if(e.touches) {
             if (e.touches.length == 1) { // Only deal with one finger
+              var rect = this.offset(this.canvas)
               const touch = e.touches[0]
               this.touchX = touch.pageX - touch.target.offsetLeft
-              this.touchY= touch.pageY - touch.target.offsetTop
+              this.touchY= touch.pageY - rect.top
             }
         }
+    },
+    offset(el) {
+      var rect = el.getBoundingClientRect(),
+      scrollLeft = document.documentElement.scrollLeft,
+      scrollTop = document.documentElement.scrollTop;
+      return { top: rect.top + scrollTop , left: rect.left + scrollLeft }
     },
     drawDot(ctx,x,y,size) {
         let r=0
@@ -439,8 +446,8 @@ export default {
         this.drawDot(this.ctx,this.touchX,this.touchY,3)
         event.preventDefault()
     },
-    sketchpad_touchStart() {
-        this.getTouchPos()
+    sketchpad_touchStart(e) {
+        this.getTouchPos(e)
         this.drawDot(this.ctx,this.touchX,this.touchY,3)
         event.preventDefault()
     },
