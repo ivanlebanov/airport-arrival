@@ -7,6 +7,7 @@ import Register from '@/pages/auth/Register.vue'
 import Profile from '@/pages/auth/Profile.vue'
 import NotFound from '@/pages/misc/NotFound.vue'
 import Admin from '@/pages/admin/Admin.vue'
+import AdminUsers from '@/pages/admin/AdminUsers.vue'
 import AdminForms from '@/pages/admin/AdminForms.vue'
 import auth from '@/middleware/auth'
 import admin from '@/middleware/admin'
@@ -34,6 +35,14 @@ router = new Router({
       path: '/admin/forms',
       name: 'AdminForms',
       component: AdminForms,
+      meta: {
+        middleware: admin
+      }
+    },
+    {
+      path: '/admin/users',
+      name: 'AdminUsers',
+      component: AdminUsers,
       meta: {
         middleware: admin
       }

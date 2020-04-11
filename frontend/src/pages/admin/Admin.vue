@@ -18,7 +18,9 @@
               </div>
             </b-list-group-item>
           </b-list-group>
-          <router-link :to="{ name: 'AdminForms' }">Преглед на активните карантинирани</router-link>
+          <router-link :to="{ name: 'AdminForms' }" class="mr-3">Преглед на активните карантинирани</router-link>
+          <router-link :to="{ name: 'AdminUsers' }">Направете потребител администратор</router-link>
+
         </form>
 
       </div>

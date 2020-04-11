@@ -14,7 +14,7 @@
         </div>
         <section>
           <div class="col-md-12 mb-3" v-if="logged_in">
-            <h2>Вашите бланки</h2>
+            <h2>Вашите форми</h2>
             <b-list-group>
               <b-list-group-item
               :to="(form.verified) ? { name: 'FormPreview', params: { code: form.code } } : { name: 'FormEdit', params: { code: form.code } }"

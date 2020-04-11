@@ -26,6 +26,35 @@ export default {
       console.log(e)
     }
   },
+  async makeAdmin({
+    state,
+    commit,
+    dispatch
+  }, params) {
+    try {
+      let confirm = await Vue.swal({
+        title: 'Сигурни ли сте',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Не'
+      })
+      if(confirm.value) {
+        let { data } = await axios.post('/user/admin', params)
+        Vue.notify({
+          group: 'foo',
+          type: 'success',
+          text: `Операцията е успешна`
+        })
+      }
+    } catch (e) {
+      Vue.notify({
+        group: 'foo',
+        type: 'еrror',
+        text: `Грешка в системата`
+      })
+    }
+  },
   async register({
     state,
     commit,

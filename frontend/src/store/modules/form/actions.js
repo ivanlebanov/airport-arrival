@@ -33,7 +33,15 @@ export default {
   async search({ commit }, code) {
     try {
       let { data } = await axios.get(`/form/search?code=${code}`)
-      console.log(data)
+      return data
+    } catch (e) {
+      return []
+    }
+  },
+
+  async searchUsers({ commit }, email) {
+    try {
+      let { data } = await axios.get(`/user/search/?email=${email}`)
       return data
     } catch (e) {
       return []

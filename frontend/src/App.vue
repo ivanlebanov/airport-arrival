@@ -1,10 +1,16 @@
 <template>
   <div id="app" class="bootstrap-wrapper">
-    <div id="google_translate_element"></div>
     <HeaderComp />
     <main>
       <router-view />
     </main>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mb-4">
+          <div id="google_translate_element"></div>
+        </div>
+      </div>
+    </div>
     <notifications group="foo" position="top right" :duration="num"></notifications>
   </div>
 </template>

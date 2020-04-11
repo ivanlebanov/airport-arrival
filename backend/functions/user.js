@@ -12,6 +12,19 @@ class Users {
     }
   }
 
+  static async search (req, res) {
+    res.send(await User.find({ email: { $regex: `^${req.query.email}` } }, { email: 1, name: 1, isAdmin: 1 }).exec())
+  }
+
+  static async makeAdmin (req, res) {
+    try {
+      await User.updateOne({ email: req.body.email }, { $set: { isAdmin: req.body.status } }).exec()
+      res.sendStatus(200)
+    } catch (e) {
+      res.sendStatus(500)
+    }
+  }
+
   static async login (req, res) {
     try {
       const { email, password } = req.body

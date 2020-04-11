@@ -41,8 +41,10 @@ sockets.init(server)
 
 app.post('/user', user.register)
 app.post('/user/login', user.login)
+app.post('/user/admin', isAdmin, user.makeAdmin)
 app.get('/user/authenticated', VerifyToken, user.authenticated)
 app.post('/user/logout', VerifyToken, user.logout)
+app.get('/user/search', isAdmin, user.search)
 
 app.get('/forms', VerifyToken, form.list)
 app.get('/form/search', isAdmin, form.search)
