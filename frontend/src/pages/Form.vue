@@ -314,9 +314,11 @@ export default {
       },
       canvas: null,
       ctx: null,
-      isDrawing: false,
-      lastX: 0,
-      lastY: 0
+      mouseDown: 0,
+      touchX: 0,
+      touchY: 0,
+      mouseX: 0,
+      mouseY: 0
     }
   },
   async mounted() {
@@ -367,52 +369,80 @@ export default {
     },
     init() {
       this.canvas = document.querySelector('#draw')
-      this.ctx = this.canvas.getContext('2d')
-      this.ctx.lineJoin = 'round'
-      this.ctx.lineCap = 'round'
-      this.ctx.lineWidth = 2
-      this.ctx.strokeStyle = '#000000'
-      this.isDrawing = false
-      this.lastX = 0
-      this.lastY = 0
-      let self = this
-      this.canvas.addEventListener("touchstart",  function(event) {
-        event.preventDefault()
-        self.isDrawing = true
-      })
-      this.canvas.addEventListener("touchmove",   function(event) {
-        event.preventDefault()
-        self.draw(event)
-      })
-      this.canvas.addEventListener("touchend",    function(event) {
-        event.preventDefault()
-        self.isDrawing = false
-        self.lastX = 0
-      })
-      this.canvas.addEventListener("touchcancel", function(event) {
-        event.preventDefault()
-        self.isDrawing = false
-      })
-      this.canvas.addEventListener('mousedown', () => self.isDrawing = true)
-      this.canvas.addEventListener('mousemove', self.draw)
-      this.canvas.addEventListener('mouseup', () => {
-        self.isDrawing = false
-        self.lastX = 0
-      })
-      this.canvas.addEventListener('mouseout', () => self.isDrawing = false)
-    },
-    draw(e) {
-      if(!this.isDrawing) return
-      if(this.lastX) {
-        this.ctx.beginPath()
-        this.ctx.moveTo(this.lastX, this.lastY)
-        this.ctx.lineTo(e.offsetX, e.offsetY)
-        this.ctx.stroke()
-        this.ctx.closePath()
+      if (this.canvas.getContext) {
+        this.ctx = this.canvas.getContext('2d')
       }
-      this.lastX = e.offsetX
-      this.lastY = e.offsetY
-      this.form.signiture = this.canvas.toDataURL()
+      if (this.ctx) {
+        let self = this
+        this.canvas.addEventListener('mousedown', self.sketchpad_mouseDown, false)
+        this.canvas.addEventListener('mousemove', self.sketchpad_mouseMove, false)
+        window.addEventListener('mouseup', self.sketchpad_mouseUp, false)
+        this.canvas.addEventListener('touchstart', self.sketchpad_touchStart, false)
+        this.canvas.addEventListener('touchmove', self.sketchpad_touchMove, false)
+      }
+    },
+    getTouchPos(e) {
+        if (!e)
+          e = event
+        if(e.touches) {
+            if (e.touches.length == 1) { // Only deal with one finger
+              const touch = e.touches[0]
+              this.touchX = touch.pageX - touch.target.offsetLeft
+              this.touchY= touch.pageY - touch.target.offsetTop
+            }
+        }
+    },
+    drawDot(ctx,x,y,size) {
+        let r=0
+        let g=0
+        let b=0
+        let a=255
+        this.ctx.fillStyle = "rgba("+r+","+g+","+b+","+(a/255)+")"
+        this.ctx.beginPath()
+        this.ctx.arc(x, y, size, 0, Math.PI*2, true)
+        this.ctx.closePath()
+        this.ctx.fill()
+        this.form.signiture = this.canvas.toDataURL()
+    },
+
+    clearCanvas(canvas,ctx) {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    },
+    sketchpad_mouseDown() {
+        this.mouseDown = 1
+        this.drawDot(this.ctx,this.mouseX,this.mouseY,3)
+    },
+    sketchpad_mouseUp() {
+      this.mouseDown = 0
+    },
+    sketchpad_mouseMove(e) {
+      this.getMousePos(e)
+      if (this.mouseDown === 1) {
+        this.drawDot(this.ctx,this.mouseX,this.mouseY,3)
+      }
+    },
+    getMousePos(e) {
+      if (!e)
+        e = event
+
+      if (e.offsetX) {
+          this.mouseX = e.offsetX
+          this.mouseY = e.offsetY
+      }
+      else if (e.layerX) {
+          this.mouseX = e.layerX
+          this.mouseY = e.layerY
+      }
+   },
+    sketchpad_touchMove(e) {
+        this.getTouchPos(e)
+        this.drawDot(this.ctx,this.touchX,this.touchY,3)
+        event.preventDefault()
+    },
+    sketchpad_touchStart() {
+        this.getTouchPos()
+        this.drawDot(this.ctx,this.touchX,this.touchY,3)
+        event.preventDefault()
     },
     calculateAge(dob) {
       const diff_ms = new Date(Date.now() - dob.getTime())
