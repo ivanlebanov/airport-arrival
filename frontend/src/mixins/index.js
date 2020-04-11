@@ -8,13 +8,14 @@ let mixin = {
       return moment()
     },
     getDate(date) {
-      return this.moment().from(date, true)
+      return moment().from(date, true)
     },
     getDateOnly(date) {
-      return this.moment(date).format('LL')
+      date = moment(date.toString())
+      return moment(date).format('LL')
     },
     getQuarantineEnd(date) {
-      return this.moment(date).add(14, 'days').format('LL')
+      return moment(date).add(14, 'days').format('LL')
     }
   }
 }
