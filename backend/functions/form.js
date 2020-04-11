@@ -27,7 +27,8 @@ class Forms {
   }
 
   static async single (req, res) {
-    const form = await Form.findOne({ code: req.params.code }).exec()
+    const query = (req.user.isAdmin) ?  { } : { user: req.user._id  }
+    const form = await Form.findOne({ code: req.params.code, ...query }).exec()
     res.send(form)
   }
 

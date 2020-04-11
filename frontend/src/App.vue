@@ -25,7 +25,7 @@ export default {
   watch: {
     'user': function(newVal, oldVal) {
       if(newVal){
-        this.$socket.emit('SET_SOCKET_USER', newVal._id)
+        // this.$socket.emit('SET_SOCKET_USER', newVal._id)
       }
     }
   },
@@ -36,11 +36,6 @@ export default {
     return {
       num: 5000,
       show: false
-    }
-  },
-  methods: {
-    closeIntegrationWindow() {
-      this.$store.dispatch('integration/closeWindow')
     }
   },
   computed: {
