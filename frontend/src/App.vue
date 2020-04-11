@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="bootstrap-wrapper">
+    <div id="google_translate_element"></div>
     <HeaderComp />
     <main>
       <router-view />
